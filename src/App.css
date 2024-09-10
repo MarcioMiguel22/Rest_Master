@@ -1,10 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-
+/* Título centralizado com margem e tamanho de fonte */
 h1 {
-  text-align: center;
-  margin: 20px 0; /* Margem superior e inferior para o título */
-  font-size: 24px;
-  color: #333;
+  @apply text-center my-5 text-2xl text-gray-800;
 }
 
 /* Layout para empilhar as áreas verticalmente */
@@ -15,14 +15,11 @@ h1 {
   margin-top: 30px; /* Margem superior para dar espaço abaixo do título */
 }
 
-
-
 .area h2 {
-  margin-bottom: 10px;
-  color: #333;
+  @apply mb-2 text-gray-800 text-xl;
 }
 
-/* Mesas dentro das áreas */
+/* Estilo das mesas dentro das áreas */
 .mesa {
   width: 100px;
   height: 50px;
@@ -41,15 +38,16 @@ h1 {
   cursor: grabbing;
 }
 
-/* Área que limita as mesas */
+/* Estilo das áreas para limitar o movimento das mesas */
 .area {
   background-color: #e2e2e2;
   border: 2px dashed #000;
-  min-height: 400px;
+  min-height: 800px;
   padding: 20px;
   position: relative; /* Necessário para que bounds="parent" funcione */
   overflow: hidden; /* Garante que as mesas não saiam da área */
 }
+
 .mesa:hover {
   opacity: 0.8;
 }
@@ -67,7 +65,7 @@ html, body {
   }
 }
 
-
+/* Estilo para o botão dentro das mesas (caso precise de botões) */
 .mesa button {
   position: absolute;
   bottom: 5px;
