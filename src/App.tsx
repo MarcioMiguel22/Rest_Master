@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import Draggable, { DraggableEvent, DraggableData } from 'react-draggable'; // Importa react-draggable
-import './App.css';
+import { useState, useEffect } from "react";
+import Draggable, { DraggableEvent, DraggableData } from "react-draggable"; // Importa react-draggable
+import "./App.css";
 
 interface Mesa {
   id: string;
@@ -18,7 +18,7 @@ interface Reserva {
   email: string;
   inicio: string;
   fim: string;
-  status: 'reservado' | 'cancelado';
+  status: "reservado" | "cancelado";
   transferirParaMesa?: string;
   dataReserva: string; // Novo campo para a data em que o cliente quer reservar
   dataRegistro: string; // Novo campo para a data em que a reserva foi registrada
@@ -27,16 +27,58 @@ interface Reserva {
 function App() {
   // Estado das mesas
   const [mesas, setMesas] = useState<Mesa[]>(() => {
-    const savedMesas = localStorage.getItem('mesas');
+    const savedMesas = localStorage.getItem("mesas");
     return savedMesas
       ? JSON.parse(savedMesas)
       : [
-          { id: 'mesa-1', label: 'Mesa 1', emUso: false, area: 'area-1', x: 0, y: 0 },
-          { id: 'mesa-2', label: 'Mesa 2', emUso: false, area: 'area-1', x: 0, y: 0 },
-          { id: 'mesa-3', label: 'Mesa 3', emUso: false, area: 'area-2', x: 0, y: 0 },
-          { id: 'mesa-4', label: 'Mesa 4', emUso: false, area: 'area-2', x: 0, y: 0 },
-          { id: 'mesa-5', label: 'Mesa 5', emUso: false, area: 'area-3', x: 0, y: 0 },
-          { id: 'mesa-6', label: 'Mesa 6', emUso: false, area: 'area-3', x: 0, y: 0 },
+          {
+            id: "mesa-1",
+            label: "Mesa 1",
+            emUso: false,
+            area: "area-1",
+            x: 0,
+            y: 0,
+          },
+          {
+            id: "mesa-2",
+            label: "Mesa 2",
+            emUso: false,
+            area: "area-1",
+            x: 0,
+            y: 0,
+          },
+          {
+            id: "mesa-3",
+            label: "Mesa 3",
+            emUso: false,
+            area: "area-2",
+            x: 0,
+            y: 0,
+          },
+          {
+            id: "mesa-4",
+            label: "Mesa 4",
+            emUso: false,
+            area: "area-2",
+            x: 0,
+            y: 0,
+          },
+          {
+            id: "mesa-5",
+            label: "Mesa 5",
+            emUso: false,
+            area: "area-3",
+            x: 0,
+            y: 0,
+          },
+          {
+            id: "mesa-6",
+            label: "Mesa 6",
+            emUso: false,
+            area: "area-3",
+            x: 0,
+            y: 0,
+          },
         ];
   });
 
@@ -45,15 +87,17 @@ function App() {
 
   // Estado para o histórico de reservas
   const [historicoReservas, setHistoricoReservas] = useState<Reserva[]>(() => {
-    const savedHistorico = localStorage.getItem('historicoReservas');
+    const savedHistorico = localStorage.getItem("historicoReservas");
     return savedHistorico ? JSON.parse(savedHistorico) : [];
   });
 
   // Estado da mesa selecionada
-  const [mesaSelecionada, setMesaSelecionada] = useState<{ [key: string]: string }>({
-    'area-1': '',
-    'area-2': '',
-    'area-3': '',
+  const [mesaSelecionada, setMesaSelecionada] = useState<{
+    [key: string]: string;
+  }>({
+    "area-1": "",
+    "area-2": "",
+    "area-3": "",
   });
 
   // Estado para mostrar ou esconder o formulário
@@ -61,26 +105,29 @@ function App() {
 
   // Estado para armazenar os dados da reserva
   const [reserva, setReserva] = useState<Reserva>({
-    mesaId: '',
-    nome: '',
-    telefone: '',
-    email: '',
-    inicio: '',
-    fim: '',
-    status: 'reservado',
-    transferirParaMesa: '',
-    dataReserva: '',
-    dataRegistro: '',
+    mesaId: "",
+    nome: "",
+    telefone: "",
+    email: "",
+    inicio: "",
+    fim: "",
+    status: "reservado",
+    transferirParaMesa: "",
+    dataReserva: "",
+    dataRegistro: "",
   });
 
   // Salva as mesas no local storage sempre que o estado das mesas muda
   useEffect(() => {
-    localStorage.setItem('mesas', JSON.stringify(mesas));
+    localStorage.setItem("mesas", JSON.stringify(mesas));
   }, [mesas]);
 
   // Salva o histórico de reservas no local storage sempre que ele for atualizado
   useEffect(() => {
-    localStorage.setItem('historicoReservas', JSON.stringify(historicoReservas));
+    localStorage.setItem(
+      "historicoReservas",
+      JSON.stringify(historicoReservas)
+    );
   }, [historicoReservas]);
 
   // Função para alternar o estado de uso da mesa
@@ -114,12 +161,19 @@ function App() {
   const handleRemoverMesa = (area: string) => {
     if (mesaSelecionada[area]) {
       removerMesaPorId(mesaSelecionada[area]);
-      setMesaSelecionada((prevSelecionada) => ({ ...prevSelecionada, [area]: '' }));
+      setMesaSelecionada((prevSelecionada) => ({
+        ...prevSelecionada,
+        [area]: "",
+      }));
     }
   };
 
   // Função para atualizar a posição da mesa ao soltar o arraste
-  const handleStop = (_: DraggableEvent, data: DraggableData, mesaId: string) => {
+  const handleStop = (
+    _: DraggableEvent,
+    data: DraggableData,
+    mesaId: string
+  ) => {
     setMesas((prevMesas) =>
       prevMesas.map((mesa) =>
         mesa.id === mesaId ? { ...mesa, x: data.x, y: data.y } : mesa
@@ -128,7 +182,9 @@ function App() {
   };
 
   // Função para lidar com as mudanças no formulário de reserva
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setReserva((prev) => ({ ...prev, [name]: value }));
   };
@@ -136,7 +192,7 @@ function App() {
   // Função para salvar a reserva e adicionar ao histórico
   const handleSubmit = () => {
     // Adiciona a data do registro no momento da reserva
-    const dataRegistroAtual = new Date().toLocaleDateString('pt-BR');
+    const dataRegistroAtual = new Date().toLocaleDateString("pt-BR");
 
     const novaReserva = { ...reserva, dataRegistro: dataRegistroAtual };
 
@@ -172,17 +228,23 @@ function App() {
             onClick={toggleFixarMesas}
             className="fixed bottom-20 right-10 bg-gray-500 text-white p-3 rounded-full"
           >
-            {mesasFixas ? 'Liberar Mesas' : 'Fixar Mesas'}
+            {mesasFixas ? "Liberar Mesas" : "Fixar Mesas"}
           </button>
 
           {mostrarFormulario && (
-            <div className="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex justify-center items-center">
+            <div
+              className="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex justify-center items-center"
+              style={{ zIndex: 9999 }} // Aqui, adicione o z-index alto
+            >
               <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
                 <h2 className="text-xl mb-4">Fazer Reserva</h2>
 
                 <form className="space-y-4">
                   <div>
-                    <label htmlFor="mesaId" className="block text-sm font-medium">
+                    <label
+                      htmlFor="mesaId"
+                      className="block text-sm font-medium"
+                    >
                       Mesa Número
                     </label>
                     <input
@@ -210,7 +272,10 @@ function App() {
                   </div>
 
                   <div>
-                    <label htmlFor="telefone" className="block text-sm font-medium">
+                    <label
+                      htmlFor="telefone"
+                      className="block text-sm font-medium"
+                    >
                       Telefone
                     </label>
                     <input
@@ -224,7 +289,10 @@ function App() {
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium">
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium"
+                    >
                       E-mail
                     </label>
                     <input
@@ -238,7 +306,10 @@ function App() {
                   </div>
 
                   <div>
-                    <label htmlFor="inicio" className="block text-sm font-medium">
+                    <label
+                      htmlFor="inicio"
+                      className="block text-sm font-medium"
+                    >
                       Hora de Início
                     </label>
                     <input
@@ -266,7 +337,10 @@ function App() {
                   </div>
 
                   <div>
-                    <label htmlFor="dataReserva" className="block text-sm font-medium">
+                    <label
+                      htmlFor="dataReserva"
+                      className="block text-sm font-medium"
+                    >
                       Data da Reserva
                     </label>
                     <input
@@ -280,7 +354,10 @@ function App() {
                   </div>
 
                   <div>
-                    <label htmlFor="status" className="block text-sm font-medium">
+                    <label
+                      htmlFor="status"
+                      className="block text-sm font-medium"
+                    >
                       Status da Reserva
                     </label>
                     <select
@@ -317,16 +394,19 @@ function App() {
           )}
 
           {/* Renderização das áreas e mesas */}
-          {['area-1', 'area-2', 'area-3'].map((area) => (
+          {["area-1", "area-2", "area-3"].map((area) => (
             <div className="area" key={area} id={area}>
-              <h2>{`Área ${area.split('-')[1]}`}</h2>
+              <h2>{`Área ${area.split("-")[1]}`}</h2>
               <button onClick={() => criarMesa(area)}>Adicionar Mesa</button>
 
               <div>
                 <select
                   value={mesaSelecionada[area]}
                   onChange={(e) =>
-                    setMesaSelecionada({ ...mesaSelecionada, [area]: e.target.value })
+                    setMesaSelecionada({
+                      ...mesaSelecionada,
+                      [area]: e.target.value,
+                    })
                   }
                 >
                   <option value="">Selecione uma mesa</option>
@@ -338,7 +418,9 @@ function App() {
                       </option>
                     ))}
                 </select>
-                <button onClick={() => handleRemoverMesa(area)}>Remover Mesa</button>
+                <button onClick={() => handleRemoverMesa(area)}>
+                  Remover Mesa
+                </button>
               </div>
 
               {mesas
@@ -355,7 +437,7 @@ function App() {
                       className="mesa"
                       onClick={() => toggleUsoMesa(mesa.id)}
                       style={{
-                        backgroundColor: mesa.emUso ? '#f44336' : '#4caf50',
+                        backgroundColor: mesa.emUso ? "#f44336" : "#4caf50",
                       }}
                     >
                       {mesa.label}
@@ -371,9 +453,11 @@ function App() {
             <ul>
               {historicoReservas.map((reserva, index) => (
                 <li key={index}>
-                  Mesa: {reserva.mesaId}, Nome: {reserva.nome}, Telefone: {reserva.telefone},
-                  Status: {reserva.status}, Data da Reserva: {reserva.dataReserva},
-                  Data do Registro: {reserva.dataRegistro}, Horário: {reserva.inicio} - {reserva.fim}
+                  Mesa: {reserva.mesaId}, Nome: {reserva.nome}, Telefone:{" "}
+                  {reserva.telefone}, Status: {reserva.status}, Data da Reserva:{" "}
+                  {reserva.dataReserva}, Data do Registro:{" "}
+                  {reserva.dataRegistro}, Horário: {reserva.inicio} -{" "}
+                  {reserva.fim}
                 </li>
               ))}
             </ul>
